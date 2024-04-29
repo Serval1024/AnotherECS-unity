@@ -13,6 +13,10 @@ namespace AnotherECS.Unity.Jobs
         [UnityEngine.RuntimeInitializeOnLoadMethod(UnityEngine.RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ReloadDomainOptimizationHack()
         {
+            foreach (var data in _data)
+            {
+                data?.Dispose();
+            }
             Array.Clear(_data, 0, _data.Length);
         }
 #endif
@@ -37,6 +41,7 @@ namespace AnotherECS.Unity.Jobs
         public static void Unregister(State state)
         {
             var id = state.GetStateId();
+            
             NativeArrayProvider data;
             lock (_data)
             {
